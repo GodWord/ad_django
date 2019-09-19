@@ -11,13 +11,16 @@ __project_name__ = 'ad_django'
 
 
 class BaseUserManager(AbstractBaseUserManager):
-    def create_user(self, username, password=None, email=None, is_active=True, is_superuser=False):
+    def create_user(self, username, password=None, email=None, is_active=True, is_staff=False, is_superuser=False):
         """
         Creates and saves a User with the given email and password.
         """
         user = self.model(
             username=username,
             email=email,
+            is_staff=is_staff,
+            is_active=is_active,
+            is_superuser=is_superuser
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -44,6 +47,8 @@ class BaseUserManager(AbstractBaseUserManager):
             email=email,
         )
         user.is_superuser = True
+        user.is_staff = True,
+
         user.save(using=self._db)
         return user
 
@@ -58,6 +63,7 @@ class User(AbstractBaseUser):
     gender = models.PositiveSmallIntegerField(default=0, choices=GENDER_CHOICES, verbose_name='性别')
     email = models.CharField(max_length=64, null=True, verbose_name='邮箱')
     is_superuser = models.BooleanField(default=False, verbose_name='是否为管理账号')
+    is_staff = models.BooleanField(default=False, verbose_name='是否为员工')
     create_time = models.DateTimeField(blank=True, null=True, default=datetime.now, verbose_name="创建时间")
     update_time = models.DateTimeField(blank=True, null=True, default=datetime.now, verbose_name="更新时间")
 
