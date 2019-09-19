@@ -7,6 +7,7 @@ __project_name__ = 'ad_django'
 from datetime import datetime
 
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager as AbstractBaseUserManager
+from django.contrib.auth.models import _user_has_perm
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -67,7 +68,7 @@ class User(AbstractBaseUser):
         _('username'),
         max_length=150,
         unique=True,
-        help_text=_('必填. 150 字符以内。 只能输入:字母、数字和 @/./+/-/_ '),
+        help_text=_('必填. 150 字符以内。 只能输入:字母、数字和 @.+-_ '),
         validators=[username_validator],
         error_messages={
             'unique': _("具有该用户名的用户已存在。"),
@@ -102,9 +103,10 @@ class User(AbstractBaseUser):
         verbose_name = '用户信息'
 
     def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
+        return _user_has_perm(self, perm, obj=obj)
 
-    def has_perms(self, perm, obj=None):
+    def has_perms(self, perm_list, obj=None):
+        for perm in perm_list:
+            if not self.has_perm(perm, obj):
+                return False
         return True
