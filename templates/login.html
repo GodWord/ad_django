@@ -1,0 +1,71 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>HIK人员管理对接平台</title>
+    <meta name="keywords" content="HIK人员管理对接平台"/>
+    <meta name="description" content="HIK人员管理对接平台"/>
+    <meta name="author" content="vfeng"/>
+    <meta name="copyright" content="vfeng"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/scanboardLogin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animsition.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'layui/css/layui.css' %}">
+    <script type="text/javascript" src="{% static 'layui/layui.js' %}"></script>
+
+</head>
+<body>
+<div class="wp animsition">
+    <div class="boardLogin">
+        <a href="#" class="logo">
+            <h1 style="font-size: 30px;color:rgb(0, 222, 255);">HIK人员管理对接平台</h1>
+        </a>
+        <form action="{% url 'login' %}" method="post">
+            <div class="inpGroup">
+                <span class="loginIco1"></span>
+                <input type="text" name="username" placeholder="请输入您的用户名" value="">
+            </div>
+            <div class="prompt">
+                <p class="error">用户名错误或不存在</p>
+            </div>
+
+            <div class="inpGroup">
+                <span class="loginIco2"></span>
+                <input type="password" name="password" placeholder="请输入您的密码" value="">
+            </div>
+            <div class="prompt">
+                <p class="success">输入正确</p>
+            </div>
+            <button class="submit" lay-submit lay-filter="submitBut">登录</button>
+            {% csrf_token %}
+
+        </form>
+    </div>
+</div>
+<div id="particles-js"></div>
+</body>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.animsition.js' %}"></script>
+<script src="{% static 'js/particles.min.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+<script type="text/javascript">
+    $(".animsition").animsition({
+        inClass: 'fade-in',
+        outClass: 'fade-out',
+        inDuration: 800,
+        outDuration: 1000,
+        loading: false,
+        loadingParentElement: 'body',
+        loadingClass: 'animsition-loading',
+        unSupportCss: ['animation-duration',
+            '-webkit-animation-duration',
+            '-o-animation-duration'
+        ],
+        overlay: false,
+        overlayClass: 'animsition-overlay-slide',
+        overlayParentElement: 'body'
+    });
+</script>
+</html>

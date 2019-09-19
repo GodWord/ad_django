@@ -1,0 +1,144 @@
+{% load static from staticfiles %}
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <!-- Google Chrome Frame也可以让IE用上Chrome的引擎: -->
+    <meta name="renderer" content="webkit">
+    <!--国产浏览器高速模式-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HIK人员管理对接平台</title>
+    <meta name="keywords" content="HIK人员管理对接平台"/>
+    <meta name="description" content="HIK人员管理对接平台"/>
+
+    <!-- 公共样式 开始 -->
+    <link rel="shortcut icon" href="{% static "images/hik_logo.png" %}"/>
+    <link rel="bookmark" href="{% static "images/favicon.ico" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "fonts/iconfont.css" %}">
+    <script type="text/javascript" src="{% static "framework/jquery-1.11.3.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/base.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "layui/css/layui.css" %}">
+    <!--[if lt IE 9]>
+	      	<script src="{% static "framework/html5shiv.min.js" %}"></script>
+	      	<script src="{% static "framework/respond.min.js" %}"></script>
+	    <![endif]-->
+    <script type="text/javascript" src="{% static "layui/layui.js" %}"></script>
+    <script src="{% static "framework/cframe.js" %}"></script><!-- 仅供所有子页面使用 -->
+    <!-- 公共样式 结束 -->
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/frameStyle.css" %}">
+    <script type="text/javascript" src="{% static "framework/frame.js" %}"></script>
+
+</head>
+
+<body>
+<!-- 左侧菜单 - 开始 -->
+<div class="frameMenu">
+    <div class="logo">
+        <img src="{% static "images/hik_logo.png" %}"/>
+        <div class="logoText">
+            <h1>HIK人员管理对接平台</h1>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="hoverBox"></div>
+        <ul>
+            <li>
+                <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-icon left"
+                                                               onmouseenter="getLeftTips(this, '个人信息')"
+                                                               onmouseleave="layer.closeAll('tips')"></i><font>个人信息</font><i
+                        class="iconfont icon-dajiantouyou right"></i></a>
+                <dl>
+                    <dt><a href="javascript:void(0)"
+                           onclick="menuCAClick('{% url 'user' %}',this, 'page10034')">个人信息查看</a>
+                </dl>
+            </li>
+            {% if request.user.is_superuser %}
+                <li>
+                    <a class="menuFA" href="javascript:void(0)"><i class="iconfont icon-icon left"
+                                                                   onmouseenter="getLeftTips(this, '海康信息同步')"
+                                                                   onmouseleave="layer.closeAll('tips')"></i><font>海康信息同步</font><i
+                            class="iconfont icon-dajiantouyou right"></i></a>
+                    <dl>
+                        <dt><a href="javascript:void(0)"
+                               onclick="menuCAClick('{% url 'user' %}',this, 'page10034')">信息同步</a>
+                    </dl>
+                </li>
+            {% endif %}
+
+
+        </ul>
+    </div>
+</div>
+<!-- 左侧菜单 - 结束 -->
+
+<div class="main">
+    <!-- 头部栏 - 开始 -->
+    <div class="frameTop">
+        <div class="shrinkBut">
+            <div class="hoverBox"></div>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="menuShrink(this)" onmouseenter="getTips(this, '收缩菜单')"
+                       onmouseleave="layer.closeAll('tips')"><i class="iconfont icon-caidan-shousuo"></i></a></li>
+                <li><a href="javascript:void(0)" onclick="frameRefresh()" onmouseenter="getTips(this, '刷新')"
+                       onmouseleave="layer.closeAll('tips')"><i class="iconfont icon-htmal5icon23"></i></a></li>
+            </ul>
+        </div>
+        <div class="topMenu">
+            <div class="hoverBox"></div>
+            <ul>
+                <li><a href="javascript:void(0)" id="fullScreenBut" onclick="fullScreen('fullScreenBut')"
+                       onmouseenter="getTips(this, '全屏')" onmouseleave="layer.closeAll('tips')"><i
+                        class="iconfont icon-full-screen"></i></a></li>
+                <li>
+                    <a href="javascript:void(0)"><font>{{ request.user.username }}</font><i
+                            class="iconfont icon-up-copy"></i></a>
+                    <dl>
+                        <dt><a href="/xadmin/" target="_blank">账号管理</a></dt>
+                    </dl>
+                </li>
+                <li><a href="{% url 'logout' %}" onmouseenter="getTips(this, '退出系统')"
+                       onmouseleave="layer.closeAll('tips')"><i
+                        class="iconfont icon-084tuichu"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 头部栏 - 结束 -->
+
+    <!-- 核心区域 - 开始 -->
+    <div class="frameMain">
+        <div class="title" id="frameMainTitle">
+            <i class="iconfont icon-shuangzuojiantou- leftbut" onclick="pageShow('l')"></i>
+            <div class="mainPageBox">
+                <div class="mainPage">
+							<span class="active" onclick="pageSwitch(this)">
+			    				<div class="hoverBox"></div>
+								<i class="iconfont icon-shouye"></i>
+							</span>
+                </div>
+            </div>
+            <i class="iconfont icon-shuangyoujiantou- rightbut" onclick="pageShow('r')"></i>
+            <i class="iconfont icon-iconfontarrows1 rightbut pageAllBut">
+                <dl>
+                    <!--href=”javascript:void(0);”这个的含义是，让超链接去执行一个js函数，而不是去跳转到一个地址-->
+                    <dt><a href="javascript:void(0)" onclick="nowpageClose()">关闭当前标签页</a></dt>
+                    <dt><a href="javascript:void(0)" onclick="otherpageClose()">关闭其它标签页</a></dt>
+                    <dt><a href="javascript:void(0)" onclick="allpageClose()">关闭全部标签页</a></dt>
+                </dl>
+            </i>
+        </div>
+        <div class="con">
+            <div class="mainPageCon">
+                <!--scrolling表示滚动条可以滑动-->
+                <iframe class="mainIframe" src="{% url 'user' %}" scrolling="yes"></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- 核心区域 - 结束 -->
+</div>
+</body>
+
+</html>
