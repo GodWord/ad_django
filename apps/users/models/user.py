@@ -64,6 +64,7 @@ class User(AbstractBaseUser):
     email = models.CharField(max_length=64, null=True, verbose_name='邮箱')
     is_superuser = models.BooleanField(default=False, verbose_name='是否为管理账号')
     is_staff = models.BooleanField(default=False, verbose_name='是否为员工')
+    is_active = models.BooleanField(default=True, verbose_name='是否激活')
     create_time = models.DateTimeField(blank=True, null=True, default=datetime.now, verbose_name="创建时间")
     update_time = models.DateTimeField(blank=True, null=True, default=datetime.now, verbose_name="更新时间")
 
