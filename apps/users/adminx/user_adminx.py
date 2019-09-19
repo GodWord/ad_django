@@ -17,9 +17,9 @@ class MyUserAdmin(object):
     model = User
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email',)}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Personal info'), {'fields': ('email',)}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (_('Important dates'), {'fields': ('last_login',)}),
     )
     list_display = ['email', 'username', 'is_superuser', 'is_active', 'last_login', 'image']
 
