@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'xadmin',
     'users'
+    'ad_sync'
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+LOG_PATH = os.path.join(BASE_DIR, 'log')
+if not os.path.exists(LOG_PATH):
+    os.makedirs(LOG_PATH)
+
 # 配置日志
 LOGGING = {
     'version': 1,
@@ -159,7 +164,7 @@ LOGGING = {
         'default': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './log/all.log',  # 日志输出文件
+            'filename': os.path.join(LOG_PATH, 'all.log'),  # 日志输出文件
             'maxBytes': 1024 * 1024 * 1024 * 5,  # 文件大小
             'backupCount': 5,  # 备份份数
             'formatter': 'standard',  # 使用哪种formatters日志格式
@@ -167,7 +172,7 @@ LOGGING = {
         'error': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './log/error.log',
+            'filename': os.path.join(LOG_PATH, 'error.log'),
             'maxBytes': 1024 * 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'standard',
@@ -175,7 +180,7 @@ LOGGING = {
         'request_handler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './log/script.log',
+            'filename': os.path.join(LOG_PATH, 'script.log'),
             'maxBytes': 1024 * 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'standard',
@@ -183,7 +188,7 @@ LOGGING = {
         'scprits_handler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './log/script.log',
+            'filename': os.path.join(LOG_PATH, 'script.log'),
             'maxBytes': 1024 * 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'standard',
@@ -192,7 +197,16 @@ LOGGING = {
         'users': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './log/users.log',  # 日志输出文件
+            'filename': os.path.join(LOG_PATH, 'users.log'),  # 日志输出文件
+            'maxBytes': 1024 * 1024 * 1024 * 5,  # 文件大小
+            'backupCount': 5,  # 备份份数
+            'formatter': 'standard',  # 使用哪种formatters日志格式
+        },
+
+        'ad': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_PATH, 'ad.log'),  # 日志输出文件
             'maxBytes': 1024 * 1024 * 1024 * 5,  # 文件大小
             'backupCount': 5,  # 备份份数
             'formatter': 'standard',  # 使用哪种formatters日志格式
@@ -226,6 +240,18 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True
         },
+        'ad': {
+            'handlers': ['ad', 'error', 'console', 'default'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
 
     }
 }
+
+LDAP_URI = '10.1.65.64'
+LDAP_PASS = 'a.123456'
+BASE_DN = 'ou=Users,dc=testyun,dc=club'
+
+SERVER_USER = 'users\\administrator'  # 域和用户之间必须是双斜划线
+SERVER_PASSWORD = 'a.123456'

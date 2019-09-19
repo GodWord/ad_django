@@ -10,7 +10,6 @@ import xadmin
 from users.forms.my_user_creation_form import MyUserCreationForm, MyUserChangeForm
 from users.models import User
 
-
 class MyUserAdmin(object):
     add_form = MyUserCreationForm
     form = MyUserChangeForm
@@ -22,6 +21,6 @@ class MyUserAdmin(object):
         (_('Important dates'), {'fields': ('last_login',)}),
     )
     list_display = ['email', 'username', 'is_superuser', 'is_active', 'last_login', 'image']
-
+    list_editable = ['email', 'username', 'is_active', 'image', ]
 
 xadmin.site.register(User, MyUserAdmin)
