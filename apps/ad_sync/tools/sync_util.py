@@ -1,13 +1,12 @@
 # -*- coding:utf-8 -*-
-from ad_django.settings import LDAP_URI, SERVER_USER, SERVER_PASSWORD, BASE_DN
-
 __author__ = 'zhoujifeng'
 __date__ = '2019/5/29 11:49'
-
 import json
 import logging
 
 from ldap3 import Server, Connection, NTLM, ALL, ALL_ATTRIBUTES
+
+from ad_django.settings import LDAP_URI, SERVER_USER, SERVER_PASSWORD, BASE_DN
 
 logger = logging.getLogger('ad')
 
