@@ -1,13 +1,15 @@
 # -*- coding:utf-8 -*-
-from datetime import datetime
-
-from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager as AbstractBaseUserManager
-from django.db import models
-
 __author__ = 'zhoujifeng'
 __date__ = '2019/8/29 9:54'
 __file_name__ = 'user'
 __project_name__ = 'ad_django'
+
+from datetime import datetime
+
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager as AbstractBaseUserManager
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class BaseUserManager(AbstractBaseUserManager):
@@ -58,20 +60,51 @@ class User(AbstractBaseUser):
         (u'0', u'男'),
         (u'1', u'女'),
     )
-    username = models.CharField(max_length=40, unique=True)
+
+    username_validator = UnicodeUsernameValidator()
+
+    username = models.CharField(
+        _('username'),
+        max_length=150,
+        unique=True,
+        help_text=_('必填. 150 字符以内。 只能输入:字母、数字和 @/./+/-/_ '),
+        validators=[username_validator],
+        error_messages={
+            'unique': _("具有该用户名的用户已存在。"),
+        },
+    )
     image = models.ImageField(upload_to='media/images/user/', default='media/images/default.png', verbose_name='头像')
     gender = models.PositiveSmallIntegerField(default=0, choices=GENDER_CHOICES, verbose_name='性别')
     email = models.CharField(max_length=64, null=True, verbose_name='邮箱')
     is_superuser = models.BooleanField(default=False, verbose_name='是否为管理账号')
-    is_staff = models.BooleanField(default=False, verbose_name='是否为员工')
-    is_active = models.BooleanField(default=True, verbose_name='是否激活')
+
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('指定用户是否可以登录此管理站点。'),
+    )
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ))
     create_time = models.DateTimeField(blank=True, null=True, default=datetime.now, verbose_name="创建时间")
     update_time = models.DateTimeField(blank=True, null=True, default=datetime.now, verbose_name="更新时间")
 
+    EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
-
     objects = BaseUserManager()
 
     class Meta(AbstractBaseUser.Meta):
         verbose_name = '用户信息'
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_perms(self, perm, obj=None):
+        return True
