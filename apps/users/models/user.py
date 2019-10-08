@@ -64,7 +64,7 @@ class User(AbstractBaseUser):
 
     username_validator = UnicodeUsernameValidator()
 
-    name = models.CharField(
+    username = models.CharField(
         _('username'),
         max_length=150,
         unique=True,
@@ -76,16 +76,16 @@ class User(AbstractBaseUser):
     )
     image = models.ImageField(upload_to='media/images/user/', default='media/images/default.png', verbose_name='头像')
     gender = models.PositiveSmallIntegerField(default=0, choices=GENDER_CHOICES, verbose_name='性别')
-    mail = models.CharField(max_length=64, null=True, verbose_name='邮箱')
+    email = models.CharField(max_length=64, null=True, verbose_name='邮箱')
     is_superuser = models.BooleanField(default=False, verbose_name='是否为管理账号')
     display_name = models.CharField(max_length=64, null=True, verbose_name='未知')
-    employee_id = models.IntegerField(verbose_name='员工id')
+    # employee_id = models.IntegerField(verbose_name='员工ID')
     department = models.CharField(max_length=64, null=True, verbose_name='部门')
     title = models.CharField(max_length=64, null=True, verbose_name='标题')
     company = models.CharField(max_length=225, null=True, verbose_name='公司')
     telephone_number = models.CharField(max_length=64, null=True, verbose_name='电话号码')
-    last_logon = models.DateTimeField(null=True, verbose_name='上次登录时间')
-    ms_exchWhenMailbox_created = models.DateTimeField(null=True, verbose_name='未知')
+    last_logon = models.DateTimeField(null=True, verbose_name='上次AD登录时间')
+    ms_exch_when_mailbox_created = models.DateTimeField(null=True, verbose_name='未知')
 
     is_staff = models.BooleanField(
         _('staff status'),
