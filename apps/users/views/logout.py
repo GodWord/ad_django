@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
+__author__ = 'zhoujifeng'
+__date__ = '2019/6/25 22:49'
+
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.views import View
-
-__author__ = 'zhoujifeng'
-__date__ = '2019/6/25 22:49'
 
 
 class LogoutView(View):
